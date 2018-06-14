@@ -88,8 +88,19 @@ class ps4262:
     # this can't be called externally (it doesn't go into the executor queue)
     def _fetchData(self):
         if self.doFetch:
-            voltageData = self.ps.getDataV('A', self.nSamples, returnOverflow=False)
-            self.data.append ({"nTriggers": self.edgesCaught, "t0": self.timeVector[0], "t_end": self.timeVector[-1], "current": voltageData * self.currentScaleFactor, "timestamp": self.lastTriggerTime, "yLabel": "Current", "xLabel": "Time", "yUnits": "s", "xUnits": "A"})
+            raw_data = self.ps.getDataRaw('A', self.nSamples, returnOverflow=False)
+            dtype = np.float64
+            channel = self.ps.CHANNELS['A']
+            voltage_scale = self.ps.CHRange[channel] / dtype(self.ps.getMaxValue())
+            voltage_offset = self.CHOffset[channel]
+
+            #voltageData = self.ps.getDataV('A', self.nSamples, returnOverflow=False)
+            self.data.append ({"voltage_offset":voltage_offset, "voltage_scale":voltage_scale, "current_scale":self.currentScaleFactor, "nTriggers": self.edgesCaught, "t0": self.timeVector[0], "t_end": self.timeVector[-1], "raw_data": raw_data, "timestamp": self.lastTriggerTime, "yLabel": "Current", "xLabel": "Time", "yUnits": "s", "xUnits": "A"})
+            # then to recover the proper data into dataI, one should do:
+            # dataI = np.empty(dataRaw.size, dtype=np.float64)
+            #np.multiply(dataRaw, voltage_scale, dataI)
+            #np.subtract(dataI, voltage_offset, dataI)
+            #np.multiply(dataI, current_scale, dataI)
 
     def blockReady(self,handle,error,void):
         self.lastTriggerTime = time.time() # returns seconds since 1970 GMT
