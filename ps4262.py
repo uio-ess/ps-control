@@ -88,14 +88,14 @@ class ps4262:
     # this can't be called externally (it doesn't go into the executor queue)
     def _fetchData(self):
         if self.doFetch:
-            raw_data = self.ps.getDataRaw('A', self.nSamples, returnOverflow=False)
+            (raw_data, numSamplesReturned, overflow) = self.ps.getDataRaw('A', self.nSamples)
             dtype = np.float64
             channel = self.ps.CHANNELS['A']
             voltage_scale = self.ps.CHRange[channel] / dtype(self.ps.getMaxValue())
-            voltage_offset = self.CHOffset[channel]
+            voltage_offset = self.ps.CHOffset[channel]
 
             #voltageData = self.ps.getDataV('A', self.nSamples, returnOverflow=False)
-            self.data.append ({"voltage_offset":voltage_offset, "voltage_scale":voltage_scale, "current_scale":self.currentScaleFactor, "nTriggers": self.edgesCaught, "t0": self.timeVector[0], "t_end": self.timeVector[-1], "raw_data": raw_data, "timestamp": self.lastTriggerTime, "yLabel": "Current", "xLabel": "Time", "yUnits": "s", "xUnits": "A"})
+            self.data.append ({"voltage_offset":voltage_offset, "voltage_scale":voltage_scale, "current_scale":self.currentScaleFactor, "nTriggers": self.edgesCaught, "t0": self.timeVector[0], "t_end": self.timeVector[-1], "raw_data": raw_data, "timestamp": self.lastTriggerTime, "yLabel": "Counts", "xLabel": "Time", "yUnits": "counts", "xUnits": "s"})
             # then to recover the proper data into dataI, one should do:
             # dataI = np.empty(raw_data.size, dtype=type(voltage_scale))
             #np.multiply(raw_data, voltage_scale, dataI)

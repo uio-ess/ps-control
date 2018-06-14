@@ -20,10 +20,10 @@ print("")
 def plot(x,y):
     plt.ion()
     plt.figure()
-    plt.plot(x, y*1e9)
+    plt.plot(x, y)
     plt.grid(True)
     plt.title("Picoscope 4000 waveform")
-    plt.ylabel("Current [nA]")
+    plt.ylabel("Counts")
     plt.xlabel("Time [s]")
     #plt.legend()
     plt.show()
@@ -38,7 +38,7 @@ while i < 5:
         pass
     print("Data ready!")
     data = ps.data.pop()
-    y = data["current"]
+    y = data["raw_data"]
     x = np.linspace(data["t0"],data['t_end'],len(y))
     print("Drawing plot from trigger number", data["nTriggers"])
     # plot the data
