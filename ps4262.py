@@ -97,8 +97,8 @@ class ps4262:
             #voltageData = self.ps.getDataV('A', self.nSamples, returnOverflow=False)
             self.data.append ({"voltage_offset":voltage_offset, "voltage_scale":voltage_scale, "current_scale":self.currentScaleFactor, "nTriggers": self.edgesCaught, "t0": self.timeVector[0], "t_end": self.timeVector[-1], "raw_data": raw_data, "timestamp": self.lastTriggerTime, "yLabel": "Current", "xLabel": "Time", "yUnits": "s", "xUnits": "A"})
             # then to recover the proper data into dataI, one should do:
-            # dataI = np.empty(dataRaw.size, dtype=np.float64)
-            #np.multiply(dataRaw, voltage_scale, dataI)
+            # dataI = np.empty(raw_data.size, dtype=type(voltage_scale))
+            #np.multiply(raw_data, voltage_scale, dataI)
             #np.subtract(dataI, voltage_offset, dataI)
             #np.multiply(dataI, current_scale, dataI)
 
