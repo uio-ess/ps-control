@@ -20,7 +20,7 @@ class ps4262:
     # for AWG
     nWaveformSamples = 2 ** 12
     waveform = np.zeros(nWaveformSamples)
-    def __init__(self, VRange = 5, requestedSamplingInterval = 1e-6, tCapture = 0.3, triggersPerMinute = 30):
+    def __init__(self, VRange = 1, requestedSamplingInterval = 1e-6, tCapture = 0.3, triggersPerMinute = 30):
         """
         picotech PS4262 library constructor
         """
