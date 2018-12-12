@@ -162,7 +162,7 @@ class ps4262:
                 self.singleShotMode = True
             future = self.executor.submit(self.ps._lowLevelSigGenSoftwareControl,0)
 
-    def _setChannel(self, VRange = 2):
+    def _setChannel(self, VRange = 1):
         self.VRange = VRange
         future = self.executor.submit(self.ps.setChannel, channel='A', coupling='DC', VRange=VRange, VOffset=0.0, enabled=True, BWLimited=0, probeAttenuation=1.0)
 
