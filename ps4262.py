@@ -13,7 +13,7 @@ class ps4262:
     """
     picotech PS4262 library
     """
-    currentScaleFactor = 1/10000000 # amps per volt through our LPM7721 eval board
+    currentScaleFactor = 1/1000000 # amps per volt through our LPM7721 eval board
     persistentFile = '/var/tmp/edgeCount.bin'
     pretrig = 0.1  # 10% of the output data will be from before the trigger event
 
